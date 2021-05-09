@@ -38,10 +38,11 @@ const addDecimal = (e) => {
 const testResult = (result) =>{
     //format result if it's a decimal
     let stringResult = String(result);
+    console.log(a, currentOperator, b, stringResult);
     let formattedNum = '';
     if (stringResult.includes('.')) {
         formattedNum = result.toFixed(3);
-        result = Number(formattedNum);
+        result = formattedNum;    
     }
 
     if (currentOperator == '/' && b == 0) {
@@ -57,52 +58,66 @@ const testResult = (result) =>{
         return false;
     } else {
         answer.textContent = result;
-        return true;
+        return result;
     }
 };
 
 const displayOperator = (e) => {
-    if (currentOperator) {
-        let index = displayed.indexOf(currentOperator);
-        b = Number(displayed.slice(index+1));
-
-        let result = operate(currentOperator, a, b);
-        
-        if (testResult(result)) {
+    if (!currentOperator) {
+        a = Number(displayed);
+        currentOperator = e.target.id;
+        displayed += currentOperator;
+        answer.textContent = '';
+    } else if (currentOperator && !a) {
+        a = Number(answer.textContent);
+        currentOperator = e.target.id;
+        displayed = a + currentOperator;
+    } else {
+        let answer = getAnswer();
+        let result = testResult(answer);
+        if (result) {
+            displayResult(result);
             a = Number(result);
-            b = null;
-            displayed = result;
             currentOperator = e.target.id;
-            displayed += currentOperator;
+            displayed = a + currentOperator;
+            answer.textContent = '';
         } else {
             a = null;
             b = null;
             displayed = '';
             currentOperator = '';
         }
-
-    } else if (displayed === '') {
-            displayed = a;
-            currentOperator = e.target.id;
-            displayed += currentOperator;
-            
-    } else {
-        if (a) {
-            displayed = a;
-        } else {
-            a = Number(displayed);
-        }
-        currentOperator = e.target.id;
-        displayed += currentOperator;
     }
 
     display.textContent = displayed;
 };
 
-const displayNumber = (e) => {
-    if (a == answer.textContent && currentOperator === '') {
-        displayed = '';
+const getResult = () => {
+    let answer = getAnswer();
+    let result = testResult(answer);
+    if (result) {
+        displayResult(result);
+    } else {
         a = null;
+        b = null;
+        displayed = '';
+        currentOperator = '';
+    }
+
+    display.textContent = displayed;
+}
+
+const displayResult = (result) => {
+    answer.textContent = result;
+    a = null;
+    b = null;
+}
+
+const displayNumber = (e) => {
+    if (answer.textContent && !a) {
+        displayed = '';
+        currentOperator = '';
+        a = Number(e.target.id);
     }
     displayed += e.target.id;
     display.textContent = displayed;
@@ -110,29 +125,22 @@ const displayNumber = (e) => {
 
 const clearScreen = () => {
     answer.textContent = '';
+    a = null;
+    b = null;
     displayed = '';
     display.textContent = '';
     currentOperator = '';
 };
 
 const getAnswer = () => {
-    let index = displayed.indexOf(currentOperator);
-    b = Number(displayed.slice(index+1));
+    let excludeNegatives = displayed.slice(1);
+    let index = excludeNegatives.indexOf(currentOperator);
+    b = Number(excludeNegatives.slice(index+1));
 
-    let result = operate(currentOperator, a, b);
-    
-    if (testResult(result)) {
-        a = Number(result);
-        b = null;
-    } else {
-        a = null;
-        b = null;
-        displayed = '';
+    if (a && currentOperator && b) {
+        let answer = operate(currentOperator, a, b);
+        return Number(answer);
     }
-
-    
-    currentOperator = '';
-    display.textContent = displayed;
 };
 
 const undoLast = () => {
@@ -146,7 +154,7 @@ operator.forEach(button => button.addEventListener('click', displayOperator));
 clear.addEventListener('click', clearScreen);
 backspace.addEventListener('click', undoLast);
 decimal.addEventListener('click', addDecimal);
-evaluate.addEventListener('click', getAnswer);
+evaluate.addEventListener('click', getResult);
 
 
 
