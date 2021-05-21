@@ -11,7 +11,6 @@ let evaluate = document.getElementById('=');
 let currentOperator = '';
 let a = null;
 let b = null;
-
 let displayed = '';
 
 const add = (a, b) => a + b;
