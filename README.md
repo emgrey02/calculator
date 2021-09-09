@@ -6,9 +6,9 @@ I create a calculator to be used through the browser.
 ![calculator](/calculator.gif)
 
 ## Languages Used
--HTML
--CSS
--Javascript
+- HTML
+- CSS
+- Javascript
 
 ## What I Learned
 - how to manipulate DOM elements with Javascript
