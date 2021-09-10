@@ -5,6 +5,9 @@ I create a calculator to be used through the browser.
 ## Demo
 ![calculator](/calculator.gif)
 
+## Live Preview
+[https://emgrey02.github.io/calculator](https://emgrey02.github.io/calculator)
+
 ## Languages Used
 - HTML
 - CSS
