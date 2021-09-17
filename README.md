@@ -1,6 +1,7 @@
 # Calculator
 ### a project from [The Odin Project](https://theodinproject.com)'s curriculum
-a calculator that can has the ability to multiply, divide, add, subtract, and use decimals. It can also clear the screen and backspace. 
+a calculator that has the ability to multiply, divide, add, subtract, and use decimals. It can also clear the screen and backspace.
+Made for use in a browser.
 
 ## Demo
 ![calculator](/calculator.gif)
